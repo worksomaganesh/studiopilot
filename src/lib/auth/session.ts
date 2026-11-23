@@ -4,14 +4,21 @@ const SESSION_COOKIE_NAME = "studiopilot_session";
 const SESSION_EXPIRY_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
 export function getAdminEmail(): string {
-  return process.env.ADMIN_EMAIL || "admin@studiopilot.io";
+  const email = process.env.ADMIN_EMAIL;
+  if (!email || !email.trim()) {
+    throw new Error("ADMIN_EMAIL must be explicitly configured in the environment.");
+  }
+  return email.trim();
 }
 
 function getSessionSecret(): string {
-  return (
-    process.env.AUTH_SESSION_SECRET ||
-    "studiopilot_default_dev_secret_key_32_characters_long_min!"
-  );
+  const secret = process.env.AUTH_SESSION_SECRET;
+  if (!secret || secret.trim().length < 32) {
+    throw new Error(
+      "AUTH_SESSION_SECRET must be explicitly configured in the environment and be at least 32 characters long."
+    );
+  }
+  return secret.trim();
 }
 
 export interface SessionData {

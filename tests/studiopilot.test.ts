@@ -53,6 +53,15 @@ describe("StudioPilot Single-Admin Security & Authentication", () => {
     resetRateLimit(testIp);
     expect(checkRateLimit(testIp).allowed).toBe(true);
   });
+
+  it("should reject session signing when AUTH_SESSION_SECRET is invalid or too short", () => {
+    const origSecret = process.env.AUTH_SESSION_SECRET;
+    process.env.AUTH_SESSION_SECRET = "too_short";
+    expect(() => signSession(adminEmail)).toThrow(
+      /AUTH_SESSION_SECRET must be explicitly configured in the environment and be at least 32 characters long/
+    );
+    process.env.AUTH_SESSION_SECRET = origSecret;
+  });
 });
 
 describe("StudioPilot Brand Architecture & Guidelines", () => {

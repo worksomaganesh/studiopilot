@@ -25,15 +25,41 @@ export function middleware(request: NextRequest) {
   // Check if current path is a public authentication route
   const isPublic = PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p));
 
-  // Check for the session cookie
+  // Check for the session cookie and validate payload structure and expiration
   const sessionCookie = request.cookies.get("studiopilot_session")?.value;
+  let isSessionValid = false;
+  if (sessionCookie && sessionCookie.includes(".")) {
+    try {
+      const [payloadPart] = sessionCookie.split(".");
+      // Base64url decode
+      const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonStr = atob(base64);
+      const parsed = JSON.parse(jsonStr);
+      const now = Math.floor(Date.now() / 1000);
+      const configuredAdmin = (process.env.ADMIN_EMAIL || "admin@studiopilot.io")
+        .toLowerCase()
+        .trim();
+
+      if (
+        parsed &&
+        parsed.role === "admin" &&
+        typeof parsed.expiresAt === "number" &&
+        parsed.expiresAt > now &&
+        parsed.email?.toLowerCase().trim() === configuredAdmin
+      ) {
+        isSessionValid = true;
+      }
+    } catch {
+      isSessionValid = false;
+    }
+  }
 
   // Check Supabase auth cookie if present
   const hasSupabaseSession = request.cookies.getAll().some((c) =>
     c.name.includes("sb-") && c.name.includes("-auth-token")
   );
 
-  const isAuthenticated = Boolean(sessionCookie || hasSupabaseSession);
+  const isAuthenticated = Boolean(isSessionValid || hasSupabaseSession);
 
   // If user is accessing /login while already authenticated, redirect to /dashboard
   if (pathname === "/login" && isAuthenticated) {

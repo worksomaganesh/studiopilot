@@ -30,47 +30,62 @@ export class DuckDuckGoSearchProvider implements ISearchProvider {
 
       const html = await response.text();
       const results: { title: string; url: string; snippet: string; source: string }[] = [];
-
-      // Regex parser for DuckDuckGo HTML search result anchors and snippets
-      const resultBlockRegex = /<div class="result__body">([\s\S]*?)<\/div>/g;
-      let match;
       const max = options.maxResults || 5;
 
-      while ((match = resultBlockRegex.exec(html)) !== null && results.length < max) {
-        const block = match[1];
+      // Split HTML by result body containers
+      const blocks = html.split(/class="[^"]*result__body[^"]*"/);
 
-        // Extract URL and Title
-        const linkMatch = /<a class="result__url" href="([^"]+)">/i.exec(block);
-        const titleMatch = /<a class="result__snippet[^>]*>([\s\S]*?)<\/a>/i.exec(block) ||
-                           /<a class="result__a[^>]*>([\s\S]*?)<\/a>/i.exec(block);
-        const snippetMatch = /<a class="result__snippet[^>]*>([\s\S]*?)<\/a>/i.exec(block);
+      for (let i = 1; i < blocks.length && results.length < max; i++) {
+        const block = blocks[i];
 
-        let linkUrl = "";
-        if (linkMatch && linkMatch[1]) {
-          const rawHref = linkMatch[1];
-          // Handle duckduckgo redirect wrapper: //duckduckgo.com/l/?uddg=URL
+        // Match result anchor and snippet
+        const titleMatch = /<a[^>]*class="[^"]*result__a[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i.exec(block);
+        const snippetMatch = /<a[^>]*class="[^"]*result__snippet[^"]*"[^>]*>([\s\S]*?)<\/a>/i.exec(block);
+
+        if (titleMatch) {
+          const rawHref = titleMatch[1];
+          let linkUrl = "";
+
+          // Extract destination URL from DuckDuckGo redirect wrapper: uddg=URL
           const uddgMatch = /uddg=([^&]+)/.exec(rawHref);
           if (uddgMatch && uddgMatch[1]) {
-            linkUrl = decodeURIComponent(uddgMatch[1]);
+            try {
+              linkUrl = decodeURIComponent(uddgMatch[1]);
+            } catch {
+              linkUrl = uddgMatch[1];
+            }
           } else if (rawHref.startsWith("http")) {
             linkUrl = rawHref;
           }
-        }
 
-        const cleanTitle = titleMatch ? titleMatch[1].replace(/<[^>]+>/g, "").trim() : "Result";
-        const cleanSnippet = snippetMatch ? snippetMatch[1].replace(/<[^>]+>/g, "").trim() : "";
+          const rawTitle = titleMatch[2].replace(/<[^>]+>/g, "").trim();
+          const cleanTitle = rawTitle
+            .replace(/&amp;/g, "&")
+            .replace(/&#x27;/g, "'")
+            .replace(/&quot;/g, '"')
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">");
 
-        if (linkUrl && linkUrl.startsWith("http")) {
-          try {
-            const hostname = new URL(linkUrl).hostname.replace("www.", "");
-            results.push({
-              title: cleanTitle,
-              url: linkUrl,
-              snippet: cleanSnippet,
-              source: hostname,
-            });
-          } catch {
-            // Skip invalid URL
+          const rawSnippet = snippetMatch ? snippetMatch[1].replace(/<[^>]+>/g, "").trim() : "";
+          const cleanSnippet = rawSnippet
+            .replace(/&amp;/g, "&")
+            .replace(/&#x27;/g, "'")
+            .replace(/&quot;/g, '"')
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">");
+
+          if (linkUrl && linkUrl.startsWith("http")) {
+            try {
+              const hostname = new URL(linkUrl).hostname.replace("www.", "");
+              results.push({
+                title: cleanTitle || "Source Document",
+                url: linkUrl,
+                snippet: cleanSnippet,
+                source: hostname,
+              });
+            } catch {
+              // Ignore invalid URLs
+            }
           }
         }
       }

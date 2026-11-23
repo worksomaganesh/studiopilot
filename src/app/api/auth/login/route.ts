@@ -43,9 +43,19 @@ export async function POST(request: Request) {
     }
 
     // Password verification:
-    // If Supabase is configured with Supabase Auth, verify with Supabase.
-    // In local dev fallback mode, accept configured password or dev standard password.
-    const expectedPassword = process.env.ADMIN_PASSWORD || "StudioPilot2026!";
+    // Requires ADMIN_PASSWORD explicitly configured in the environment.
+    // Insecure hardcoded fallbacks are strictly prohibited.
+    const expectedPassword = process.env.ADMIN_PASSWORD;
+    if (!expectedPassword) {
+      return NextResponse.json(
+        {
+          error: "Configuration Error",
+          message:
+            "ADMIN_PASSWORD is not configured in the server environment. Please configure it in .env.local.",
+        },
+        { status: 500 }
+      );
+    }
 
     // In a production setup with Supabase Auth, we call supabase.auth.signInWithPassword
     // For direct single-admin verification:
