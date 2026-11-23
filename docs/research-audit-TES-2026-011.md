@@ -102,7 +102,7 @@ Every claim in the existing dossier was evaluated against the underlying text:
 - **Supporting Source:** `src-1` ([arXiv:2503.12687v1](https://arxiv.org/html/2503.12687v1))
 - **Relevant Passage:** Section 1 (Introduction): *"The evolution of AI agents has been accelerated by recent breakthroughs in large language models (LLMs), which have provided a foundation for more sophisticated reasoning capabilities. Modern AI agents leverage these advanced language models as core components, augmenting them with specialized modules for memory, planning, tool use, and environmental interaction."*
 - **Audit Assessment:** **`SUPPORTED`**
-- **Qualifications / Notes:** Verbatim statement from peer-reviewed/preprint literature. In the raw storage register, the string was sliced at 160 characters during ingestion; the full passage completely substantiates that LLMs function as the cognitive engine rather than the entire autonomous system.
+- **Qualifications / Notes:** Verbatim statement from academic preprint literature (arXiv:2503.12687v1). In the raw storage register, the string was sliced at 160 characters during ingestion; the full passage completely substantiates that LLMs function as the cognitive engine rather than the entire autonomous system.
 
 ### Claim `CLM-002`
 - **Original Claim:** *"Moreover, we present real-world applications of autonomous AI agents in materials science, biomedical research, academic ideation, software engineering..."*
@@ -378,7 +378,7 @@ Before finalizing video recording and rendering:
 ## 13. Final Editorial Recommendation
 
 - **Research Quality Verdict:** **`VERIFIED WITH HIGH CONFIDENCE`**
-- **Justification:** The 16 retrieved sources represent an authoritative blend of peer-reviewed arXiv research (Microsoft, academic labs) and tier-one industry engineering (OpenAI, Microsoft Learn, Oracle, JetBrains). All 16 URLs resolve cleanly with HTTP 200.
+- **Justification:** The 16 retrieved sources represent an authoritative blend of academic preprint research from arXiv (Microsoft Research, academic labs) and tier-one industry engineering documentation (OpenAI, Microsoft Learn, Oracle, JetBrains). All 16 URLs resolve cleanly with HTTP 200. Preprints are correctly classified as unrefereed preprints unless independently verified as accepted to peer-reviewed venues (e.g. Yao et al. at ICLR 2023).
 - **Production Gate Status:**
   - **Research Studio:** Approved and closed for `TES-2026-011`.
   - **Script Studio:** Transition to Episode 1 scoped script (Section 9) recommended prior to voiceover recording.

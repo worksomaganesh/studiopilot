@@ -586,21 +586,60 @@ export const db = {
     saveStore(store);
 
     if (script.projectId) {
-      this.updateProject(script.projectId, {
-        status: script.isApproved ? "SCRIPT_APPROVED" : "SCRIPT_DRAFT",
-        approvedScriptId: script.isApproved ? script.id : undefined,
-      });
-      this.logActivity({
-        projectId: script.projectId,
-        action: script.isApproved ? "SCRIPT_APPROVED" : "SCRIPT_UPDATED",
-        description: script.isApproved
-          ? `Approved script document v${script.version}`
-          : `Saved script draft v${script.version}`,
-        newStatus: script.isApproved ? "SCRIPT_APPROVED" : "SCRIPT_DRAFT",
-      });
+      const currentProject = this.getProject(script.projectId);
+      if (script.isApproved) {
+        this.updateProject(script.projectId, {
+          status: "SCRIPT_APPROVED",
+          approvedScriptId: script.id,
+        });
+        this.logActivity({
+          projectId: script.projectId,
+          action: "SCRIPT_APPROVED",
+          description: `Approved script document v${script.version}`,
+          newStatus: "SCRIPT_APPROVED",
+        });
+      } else {
+        // When saving an unapproved draft or new version, do not clear existing approvedScriptId
+        // and do not downgrade status if project is already SCRIPT_APPROVED or in PRODUCTION_PLANNING
+        const shouldUpdateStatus =
+          !currentProject?.approvedScriptId &&
+          currentProject?.status !== "PRODUCTION_PLANNING" &&
+          currentProject?.status !== "EDITING" &&
+          currentProject?.status !== "SCRIPT_APPROVED";
+
+        if (shouldUpdateStatus) {
+          this.updateProject(script.projectId, {
+            status: "SCRIPT_DRAFT",
+          });
+        }
+        this.logActivity({
+          projectId: script.projectId,
+          action: "SCRIPT_UPDATED",
+          description: `Saved script draft v${script.version}`,
+          newStatus: shouldUpdateStatus ? "SCRIPT_DRAFT" : currentProject?.status,
+        });
+      }
     }
 
     return script;
+  },
+
+  getScriptVersions(scriptDocumentId?: string): ScriptVersionHistory[] {
+    const store = ensureDataFile();
+    if (!scriptDocumentId) return store.scriptVersions;
+    return store.scriptVersions.filter((v) => v.scriptDocumentId === scriptDocumentId);
+  },
+
+  saveScriptVersion(version: ScriptVersionHistory): ScriptVersionHistory {
+    const store = ensureDataFile();
+    const index = store.scriptVersions.findIndex((v) => v.id === version.id);
+    if (index >= 0) {
+      store.scriptVersions[index] = version;
+    } else {
+      store.scriptVersions.unshift(version);
+    }
+    saveStore(store);
+    return version;
   },
 
   // --- Editing Plans ---

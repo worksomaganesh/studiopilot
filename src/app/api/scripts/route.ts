@@ -40,7 +40,18 @@ export async function POST(request: Request) {
     }
 
     // Default action: generate
-    const { brandId, projectId, researchDossierId, patternIds, targetPlatform, targetDurationSeconds, audienceLevel, additionalInstructions } = body;
+    const {
+      brandId,
+      projectId,
+      researchDossierId,
+      patternIds,
+      targetPlatform,
+      targetDurationSeconds,
+      audienceLevel,
+      episodeTitle,
+      version,
+      additionalInstructions,
+    } = body;
 
     let researchDossier = null;
     if (researchDossierId) {
@@ -70,6 +81,8 @@ export async function POST(request: Request) {
       targetPlatform: targetPlatform || "YouTube Shorts",
       targetDurationSeconds: Number(targetDurationSeconds) || 60,
       audienceLevel: audienceLevel || "Intermediate",
+      episodeTitle,
+      version: version ? Number(version) : undefined,
       additionalInstructions,
     });
 
