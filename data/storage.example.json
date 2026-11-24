@@ -1,0 +1,330 @@
+{
+  "projects": [
+    {
+      "id": "TES-2026-001",
+      "brandId": "TECHENIGMASTUDIOS",
+      "title": "What is Feature Engineering and Why Does It Make or Break Machine Learning?",
+      "conceptName": "Feature Engineering",
+      "status": "RESEARCH_COMPLETE",
+      "targetPlatform": "YouTube Shorts",
+      "targetDurationSeconds": 60,
+      "targetAudienceLevel": "Intermediate",
+      "createdAt": "2026-11-23T10:00:00.000Z",
+      "updatedAt": "2026-11-23T10:00:00.000Z",
+      "tags": [
+        "Machine Learning",
+        "Data Science",
+        "Feature Engineering"
+      ]
+    },
+    {
+      "id": "ATW-2026-001",
+      "brandId": "AI_THAT_WORKS",
+      "title": "Automating Customer Support Triage with Local Multi-Agent LLMs",
+      "conceptName": "Customer Support Agent Workflow",
+      "status": "INBOX",
+      "targetPlatform": "Instagram Reels",
+      "targetDurationSeconds": 60,
+      "targetAudienceLevel": "Intermediate",
+      "createdAt": "2026-11-23T10:00:00.000Z",
+      "updatedAt": "2026-11-23T10:00:00.000Z",
+      "tags": [
+        "Customer Support",
+        "Agents",
+        "Enterprise AI"
+      ]
+    },
+    {
+      "id": "CA-2026-001",
+      "brandId": "CONTXT_AHEAD",
+      "title": "The High-NA EUV Foundry War: ASML, TSMC, and the $400M Scanner",
+      "conceptName": "High-NA EUV Lithography",
+      "status": "SCRIPT_DRAFT",
+      "targetPlatform": "YouTube Shorts",
+      "targetDurationSeconds": 60,
+      "targetAudienceLevel": "Executive / General",
+      "createdAt": "2026-11-23T10:00:00.000Z",
+      "updatedAt": "2026-11-23T10:00:00.000Z",
+      "tags": [
+        "Semiconductors",
+        "ASML",
+        "TSMC",
+        "Geopolitics"
+      ]
+    }
+  ],
+  "activities": [
+    {
+      "id": "act-1",
+      "projectId": "TES-2026-001",
+      "action": "PROJECT_CREATED",
+      "description": "Project initialized in TECHENIGMASTUDIOS brand workspace.",
+      "newStatus": "INBOX",
+      "timestamp": "2026-11-23T10:00:00.000Z"
+    },
+    {
+      "id": "act-2",
+      "projectId": "TES-2026-001",
+      "action": "RESEARCH_COMPLETED",
+      "description": "Technical Deep-Dive Dossier generated with verified Claim-Evidence matrix.",
+      "previousStatus": "RESEARCHING",
+      "newStatus": "RESEARCH_COMPLETE",
+      "timestamp": "2026-11-23T10:05:00.000Z"
+    }
+  ],
+  "researchRuns": [
+    {
+      "id": "res-tes-001",
+      "projectId": "TES-2026-001",
+      "brandId": "TECHENIGMASTUDIOS",
+      "version": 1,
+      "conceptName": "Feature Engineering",
+      "exactTopic": "What is Feature Engineering and why does it matter in Machine Learning?",
+      "createdAt": "2026-11-23T10:05:00.000Z",
+      "executiveOverview": "Feature engineering is the process of using domain knowledge to extract, transform, and select variables from raw tabular, text, or sensor data to maximise model performance and represent underlying physical or business realities.",
+      "conceptDefinition": "The transformation of raw input data columns into high-signal numerical representations that enable mathematical learning algorithms to discern patterns without overfitting.",
+      "backgroundAndFundamentals": "Even the most advanced deep learning architectures cannot learn patterns that are algebraically obscured in raw inputs. While deep neural networks perform automatic feature representation on perceptual data (images, audio), tabular and structured enterprise data continues to rely heavily on explicit, domain-guided feature engineering.",
+      "subtopics": [
+        {
+          "title": "What exactly is feature engineering?",
+          "question": "How does it differ from raw data preprocessing?",
+          "explanation": "Feature engineering goes beyond mere missing-value imputation or normalization; it crafts new dimensions that isolate specific interactions.",
+          "mechanisms": [
+            "Domain-specific aggregation (e.g. 7-day rolling transaction average)",
+            "Cyclical temporal transformations (sine/cosine hour encoding)",
+            "Interaction terms (Ratio of Debt to Monthly Income)"
+          ],
+          "practicalExamples": [
+            "Encoding timestamps as sine/cosine waves so 23:59 and 00:01 are mathematically adjacent."
+          ],
+          "visualOpportunities": [
+            "2D scatter plot showing inseparable raw data vs cleanly separable engineered feature axes."
+          ],
+          "misconceptions": [
+            "Deep learning models eliminate the need for tabular feature engineering."
+          ],
+          "limitations": [
+            "High cardinality one-hot encoding can explode feature dimensionality and memory usage."
+          ]
+        }
+      ],
+      "stepByStepMechanisms": [
+        "1. Raw Data Ingestion & Schema Type Inference",
+        "2. Non-linear interaction feature synthesis",
+        "3. Outlier and variance threshold filtering",
+        "4. Mutual information gain scoring against target"
+      ],
+      "examplesAndUseCases": [
+        "Credit risk prediction: Debt-to-income ratio predicts default 4x better than either raw variable alone."
+      ],
+      "importantTechnicalDetails": [
+        "Feature leakage during train/test split: Transformations must be fit strictly on training splits."
+      ],
+      "comparisons": [
+        {
+          "subject": "Manual Engineering vs Automatic Latent Embeddings",
+          "points": [
+            "Manual features provide full regulatory explainability.",
+            "Latent embeddings require 100x more compute and lack direct feature attribution."
+          ]
+        }
+      ],
+      "visualisationOpportunities": [
+        "TensorBoard embedding projection showing cluster separation after polynomial feature crossing."
+      ],
+      "misconceptions": [
+        "More features always equal better model accuracy."
+      ],
+      "limitations": [
+        "Curse of dimensionality leads to severe model variance if not regularized."
+      ],
+      "claimEvidenceMatrix": [
+        {
+          "id": "CLM-001",
+          "runId": "res-tes-001",
+          "claim": "Feature engineering accounts for up to 80% of practical data science project cycle time.",
+          "subtopicIndex": 0,
+          "subtopicTitle": "Feature Engineering Overview",
+          "supportingSourceId": "src-1",
+          "supportingSourceUrl": "https://www.forbes.com/sites/gilpress/2016/03/23/data-preparation-most-time-consuming-least-enjoyable-data-science-task/",
+          "supportingSourceTitle": "Forbes: Data Preparation Study",
+          "verificationStatus": "VERIFIED",
+          "quoteOrEvidence": "Surveys of working data scientists consistently report 80% of effort is spent cleaning and engineering data."
+        },
+        {
+          "id": "CLM-002",
+          "runId": "res-tes-001",
+          "claim": "Tree-based models (XGBoost, LightGBM) still outperform deep networks on structured tabular datasets when engineered features are present.",
+          "subtopicIndex": 0,
+          "subtopicTitle": "Model Architectures & Tabular Data",
+          "supportingSourceId": "src-2",
+          "supportingSourceUrl": "https://arxiv.org/abs/2207.08815",
+          "supportingSourceTitle": "Why do tree-based models still outperform deep learning on tabular data? (NeurIPS 2022)",
+          "verificationStatus": "CORROBORATED",
+          "quoteOrEvidence": "Benchmark of 45 datasets demonstrates gradient-boosted decision trees maintain superior sample efficiency over tabular neural networks."
+        }
+      ],
+      "sourceRegister": [
+        {
+          "id": "src-1",
+          "runId": "res-tes-001",
+          "title": "Forbes: Data Preparation Study",
+          "url": "https://www.forbes.com/sites/gilpress/2016/03/23/data-preparation-most-time-consuming-least-enjoyable-data-science-task/",
+          "publisher": "Forbes Media",
+          "publishedDate": "2016",
+          "credibilityScore": 8,
+          "isPrimarySource": false,
+          "retrievedAt": "2026-11-23T10:05:00.000Z"
+        },
+        {
+          "id": "src-2",
+          "runId": "res-tes-001",
+          "title": "Why do tree-based models still outperform deep learning on tabular data? (NeurIPS 2022)",
+          "url": "https://arxiv.org/abs/2207.08815",
+          "publisher": "arXiv / NeurIPS",
+          "publishedDate": "2022-07",
+          "credibilityScore": 10,
+          "isPrimarySource": true,
+          "retrievedAt": "2026-11-23T10:05:00.000Z"
+        }
+      ],
+      "researchGapsAndUncertainty": [
+        "Empirical limits of Foundation Models for Tabular Data (e.g. TabPFN v2)."
+      ],
+      "suggestedFollowUpQuestions": [
+        "How does TabPFN handle in-context tabular feature learning?"
+      ]
+    }
+  ],
+  "patterns": [
+    {
+      "id": "CP-001",
+      "name": "Contrarian Opening",
+      "category": "HOOK",
+      "description": "Directly confronts and dismantles a widely accepted belief within the first 3 seconds.",
+      "whyItWorks": "Triggers an immediate cognitive dissonance and pattern interrupt in the viewer feed, forcing them to pause to resolve the contradiction.",
+      "bestUseCases": [
+        "Debunking popular AI buzzwords",
+        "Challenging bloated cloud architecture",
+        "Re-evaluating legacy software practices"
+      ],
+      "suitableFormats": [
+        "Shorts",
+        "Reels",
+        "TikTok"
+      ],
+      "potentialLimitations": [
+        "Requires immediate irrefutable proof; without evidence it appears as cheap rage-bait."
+      ],
+      "brandSuitability": [
+        "TECHENIGMASTUDIOS",
+        "CONTXT_AHEAD"
+      ],
+      "exampleHookOrSnippet": "Everything you were taught about gradient descent is wrong when training at scale.",
+      "sourceReferenceIds": [
+        "REF-001"
+      ],
+      "createdAt": "2026-11-23T10:00:00.000Z"
+    },
+    {
+      "id": "CP-002",
+      "name": "Curiosity-Driven Question",
+      "category": "HOOK",
+      "description": "Poses an intriguing, high-stakes question whose answer has immediate practical or strategic value.",
+      "whyItWorks": "Creates an instant open cognitive loop in the viewers working memory that demands closure.",
+      "bestUseCases": [
+        "Technical deep-dives",
+        "Market analysis",
+        "Architectural comparisons"
+      ],
+      "suitableFormats": [
+        "Shorts",
+        "Reels",
+        "TikTok"
+      ],
+      "potentialLimitations": [
+        "The payoff at the end must completely answer the question or viewer retention on future videos drops."
+      ],
+      "brandSuitability": [
+        "TECHENIGMASTUDIOS",
+        "AI_THAT_WORKS",
+        "CONTXT_AHEAD"
+      ],
+      "exampleHookOrSnippet": "Why did NVIDIA spend $500M buying this obscure optical interconnect startup?",
+      "sourceReferenceIds": [
+        "REF-002"
+      ],
+      "createdAt": "2026-11-23T10:00:00.000Z"
+    },
+    {
+      "id": "CP-003",
+      "name": "Problem-First Hook",
+      "category": "HOOK",
+      "description": "Simulates or highlights an acute, visceral operational pain point in the first 2 seconds.",
+      "whyItWorks": "Viewers experiencing this exact friction identify immediately with the narrator and stay for the solution.",
+      "bestUseCases": [
+        "Enterprise workflow automation",
+        "Debugging nightmare sessions",
+        "Cost reduction tutorials"
+      ],
+      "suitableFormats": [
+        "Shorts",
+        "Reels"
+      ],
+      "potentialLimitations": [
+        "Must resonate with the exact target demographic or general audiences will swipe past."
+      ],
+      "brandSuitability": [
+        "AI_THAT_WORKS"
+      ],
+      "exampleHookOrSnippet": "Stop manually copying Stripe invoices into QuickBooks. Your operations team is burning 14 hours a week.",
+      "sourceReferenceIds": [
+        "REF-003"
+      ],
+      "createdAt": "2026-11-23T10:00:00.000Z"
+    }
+  ],
+  "reels": [
+    {
+      "id": "reel-001",
+      "platform": "YouTube Shorts",
+      "publicUrl": "https://www.youtube.com/shorts/sample1",
+      "creatorHandle": "ai_architect",
+      "creatorName": "AI Systems Engineering",
+      "creatorFollowerCount": 45000,
+      "titleOrCaption": "Why your Vector DB is hallucinating responses",
+      "videoDurationSeconds": 58,
+      "publishedDate": "2026-10-15",
+      "niche": "AI Engineering",
+      "transcriptText": "Stop blaming the LLM for hallucinations. In 90% of production RAG failures, the vector search returned chunks that were semantically close but factually irrelevant...",
+      "transcriptLanguage": "en",
+      "tags": [
+        "RAG",
+        "Vector Search",
+        "LLMs"
+      ],
+      "linkedPatternIds": [
+        "CP-001"
+      ],
+      "latestMetrics": {
+        "id": "met-1",
+        "reelId": "reel-001",
+        "observedAt": "2026-11-23T10:00:00.000Z",
+        "viewCount": 420000,
+        "likeCount": 38000,
+        "commentCount": 1250,
+        "creatorFollowersAtObservation": 45000,
+        "viewToFollowerRatio": 9.33,
+        "dataSource": "Publicly observed data"
+      },
+      "metricHistory": [],
+      "createdAt": "2026-11-23T10:00:00.000Z"
+    }
+  ],
+  "scripts": [],
+  "scriptVersions": [],
+  "editingPlans": [],
+  "assets": [],
+  "publishingRecords": [],
+  "performanceSnapshots": []
+}

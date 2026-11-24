@@ -11,6 +11,7 @@ import { BRANDS } from "@/brands/config";
 // Local storage path for offline / dev resilience
 const DATA_DIR = path.join(process.cwd(), "data");
 const STORAGE_FILE = path.join(DATA_DIR, "storage.json");
+const EXAMPLE_STORAGE_FILE = path.join(DATA_DIR, "storage.example.json");
 
 interface StorageSchema {
   projects: ContentProject[];
@@ -32,6 +33,17 @@ function ensureDataFile(): StorageSchema {
   }
 
   if (!fs.existsSync(STORAGE_FILE)) {
+    if (fs.existsSync(EXAMPLE_STORAGE_FILE)) {
+      try {
+        const exampleRaw = fs.readFileSync(EXAMPLE_STORAGE_FILE, "utf8");
+        const parsed = JSON.parse(exampleRaw);
+        fs.writeFileSync(STORAGE_FILE, JSON.stringify(parsed, null, 2), "utf8");
+        return parsed;
+      } catch {
+        // Fall back to built-in seed state below
+      }
+    }
+
     // Initial sample seed state
     const initialData: StorageSchema = {
       projects: [
