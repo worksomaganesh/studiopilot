@@ -2,7 +2,10 @@
 
 > **Your Private Creative Command Centre.**
 
-StudioPilot is a single-administrator, cloud-accessible content production workspace engineered for three independent media brands. It unifies the entire short-form content lifecycle—from deep research and viral pattern deconstruction to source-traceable scriptwriting and multi-format editing handoffs.
+StudioPilot is a single-administrator, **local-first private creative content production workspace** engineered for three independent media brands. It unifies the entire short-form content lifecycle—from deep research and viral pattern deconstruction to source-traceable scriptwriting and multi-format editing handoffs.
+
+> [!NOTE]
+> **Deployment Status:** StudioPilot operates strictly as a **local-first, single-operator desktop workspace**. Cloud hosting (Vercel), remote database sync (Supabase Cloud), and multi-device sync are **not currently configured** in this environment. All data persistence, search operations, and script generation run locally on the operator's machine via embedded file-backed storage and offline fallback engines.
 
 ---
 
@@ -74,26 +77,26 @@ StudioPilot guides content production through a four-stage pipeline managed by a
 
 ## 3. Implementation Status
 
-To provide full transparency, StudioPilot distinguishes between features that are fully operational out-of-the-box, features requiring external API configuration, and planned future capabilities:
+StudioPilot is maintained as a local-first system. The modular architecture contains adapters for external cloud services, but they remain optional or unconfigured in this repository until explicit credentials are provisioned. The table below explicitly distinguishes operational local components from unconfigured or planned cloud capabilities:
 
-| Component / Subsystem | Status | Description |
+| Component / Subsystem | Status | Current Operational Reality |
 |---|---|---|
-| **Local Application Foundation & Dashboard** | ✅ Implemented | Complete responsive UI, brand selector, activity feed, and project list. |
-| **Local File-Backed Database Fallback** | ✅ Implemented | Zero-config JSON storage engine (`data/storage.json`) with auto-seeding. |
-| **Authentication & Middleware** | ✅ Implemented | Single-admin login, HMAC-SHA256 signed session cookies, sliding rate limiter. |
-| **Public Registration Protection** | ✅ Implemented | Public sign-ups strictly disabled; single pre-provisioned administrator identity. |
-| **Brand Configurations (TES, ATW, CA)** | ✅ Implemented | All three brands fully configured with colors, prefixes, and style guides. |
-| **Content Project Management** | ✅ Implemented | Project creation, status transitions, activity logging, and filtering. |
-| **DuckDuckGo Web Search Integration** | ✅ Implemented | Live HTML search scraper; requires zero external API keys. |
-| **Deterministic Fallback Engines** | ✅ Implemented | Complete offline generation of research dossiers, scripts, and editing plans. |
-| **Script Domain Classification & Isolation** | ✅ Implemented | Eliminates template cross-contamination with automated test coverage. |
-| **Multi-Format Video Exports** | ✅ Implemented | DaVinci Resolve CMX 3600 EDL, CSV manifest, and Remotion JSON generators. |
-| **Vitest Automated Test Suite** | ✅ Implemented | 26 unit and regression tests covering script engine, search, and core features. |
-| **Google Gemini API Provider** | 🟡 Partially Implemented | Architecture ready (`@google/genai`); activates when `GEMINI_API_KEY` is provided. |
-| **Tavily & Serper Search Providers** | 🟡 Partially Implemented | Providers implemented; activate when corresponding API keys are provided. |
-| **Supabase PostgreSQL & RLS Migrations** | 🟡 Partially Implemented | Migration SQL & seed ready; activates when Supabase project keys are configured. |
-| **Direct Cloud Publishing Webhooks** | ⚪ Planned | Direct push to YouTube/Instagram via official publishing APIs. |
-| **Automated Remotion Headless Renderer** | ⚪ Planned | Headless cloud rendering of Remotion compositions directly to `.mp4`. |
+| **Local Dashboard & Workspace Shell** | ✅ Operational | Responsive UI, brand switcher, activity feed, and project overview running locally on Next.js. |
+| **Local File-Backed Database** | ✅ Operational | File-based JSON storage (`data/storage.json`) with auto-seeding from `data/storage.example.json`. |
+| **Authentication & Middleware** | ✅ Operational | Single-admin login, HMAC-SHA256 signed session cookies, in-memory rate limiter; no public signups. |
+| **Brand Systems (TES, ATW, CA)** | ✅ Operational | Complete visual guidelines, color themes, prefixes, and brand-specific generation logic. |
+| **Content Project Management** | ✅ Operational | Local creation, state progression (Inbox → Research → Script → Editing), and audit logging. |
+| **DuckDuckGo Web Search** | ✅ Operational | Live web scraping search engine requiring zero external API keys. |
+| **Offline Generation Engines** | ✅ Operational | Deterministic research dossiers, scripts, and editing plan generators running locally offline. |
+| **Script Domain Classification** | ✅ Operational | Technical domain isolation (`AI_AGENTS`, `FEATURE_ENGINEERING`, etc.) preventing template contamination. |
+| **Multi-Format Video Exports** | ✅ Operational | Generates DaVinci Resolve CMX 3600 EDL, CSV manifests, and Remotion composition JSON locally. |
+| **Automated Testing Suite** | ✅ Operational | Vitest unit and regression suite with 26 passing tests. |
+| **Google Gemini API Provider** | 🟡 Adapter Ready | Code implemented (`@google/genai`); currently inactive / unconfigured (no API key configured). |
+| **Tavily & Serper Search Providers** | 🟡 Adapter Ready | Code implemented; currently inactive / unconfigured (no external API keys configured). |
+| **Supabase PostgreSQL & Cloud RLS** | 🟡 Migration Ready | Schema migration SQL and RLS policies created; cloud database is not provisioned or connected. |
+| **Cloud Deployment (Vercel)** | ⚪ Not Configured | Cloud deployment and remote hosting are not active. Application runs exclusively on `localhost:3000`. |
+| **Multi-Device Cloud Sync** | ⚪ Not Configured | Multi-user and multi-device database synchronization are not active. |
+| **Automated Video Rendering** | ⚪ Planned | Headless server rendering of Remotion compositions directly to video files. |
 
 ---
 
@@ -278,6 +281,13 @@ npm run build
 # Start production server
 npm run start
 ```
+
+### Continuous Integration (GitHub Actions)
+StudioPilot enforces code quality and build integrity via an automated GitHub Actions pipeline (`.github/workflows/ci.yml`) triggered on all pushes and pull requests targeting the `main` branch. The CI runner executes:
+- Clean dependency installation (`npm ci`)
+- Automated unit and regression test suite (`npm test`)
+- TypeScript strict static typecheck (`npx tsc --noEmit`)
+- Complete Next.js production compilation (`npm run build`)
 
 ---
 
